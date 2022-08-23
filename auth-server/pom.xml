@@ -104,6 +104,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>auth-server</finalName>
     </build>
 
 </project>
