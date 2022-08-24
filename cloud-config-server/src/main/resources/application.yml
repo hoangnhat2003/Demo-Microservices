@@ -4,8 +4,14 @@ server:
 spring:
   application:
     name: CONFIG-SERVER
+  profiles:
+    active: native
   cloud:
     config:
       server:
-        git:
-          uri: https://github.com/luongquoctay87/cloud-config-server
+        native:
+          search-locations: classpath:/shared
+  security:
+    user:
+      name: admin
+      password: ${CONFIG_SERVICE_PASSWORD}

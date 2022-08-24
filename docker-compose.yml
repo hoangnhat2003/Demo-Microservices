@@ -6,10 +6,11 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      - MYSQL_DATABASE=db_test
-      - MYSQL_USER=dbuser
-      - MYSQL_PASSWORD=dbpassword
-      - MYSQL_ROOT_PASSWORD=password
+      DB_URL: ${DB_URL}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3366:3306"
     expose:
@@ -36,7 +37,7 @@ services:
       context: ./hystrix-dashboard
       dockerfile: Dockerfile
     environment:
-      - eureka.client.service-url.defaultZone=http://service-registry:8761/eureka/
+      eureka.client.service-url.defaultZone : http://service-registry:8761/eureka/
     depends_on:
       - service-registry
     networks:
@@ -50,7 +51,8 @@ services:
       context: ./cloud-config-server
       dockerfile: Dockerfile
     environment:
-      - eureka.client.service-url.defaultZone=http://service-registry:8761/eureka/
+      eureka.client.service-url.defaultZone : http://service-registry:8761/eureka/
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     depends_on:
       - service-registry
     networks:
@@ -64,18 +66,20 @@ services:
       context: ./auth-server
       dockerfile: Dockerfile
     environment:
-      - eureka.client.service-url.defaultZone=http://service-registry:8761/eureka/
-      - DB_NAME=db_test
-      - DB_USER=dbuser
-      - DB_PASSWORD=dbpassword
-      - JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+      eureka.client.service-url.defaultZone: http://service-registry:8761/eureka/
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+      DB_URL: ${DB_URL}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
     depends_on:
       - service-registry
       - mysql
     networks:
       - microservices-app
     ports:
-      - "5056:5005"
+      - "6650:5005"
 
   customer-service:
     container_name: customer-service
@@ -83,9 +87,14 @@ services:
       context: ./customer-service
       dockerfile: Dockerfile
     environment:
-      - eureka.client.service-url.defaultZone=http://service-registry:8761/eureka/
+      eureka.client.service-url.defaultZone: http://service-registry:8761/eureka/
+      DB_URL: ${DB_URL}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "5057:5005"
+      - "6651:5005"
     networks:
       - microservices-app
     depends_on:
