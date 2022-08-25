@@ -3,13 +3,7 @@ server:
 
 spring:
   application:
-    name: HYSTRIX-DASHBOARD
-  cloud:
-    config:
-      enabled: true
-      uri: http://localhost:9296
-  config:
-    import: "optional:configserver:"
+    name: hystrix-dashboard
 
 hystrix:
   dashboard:
