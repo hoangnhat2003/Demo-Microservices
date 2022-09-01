@@ -1,12 +1,12 @@
-package com.microservice.authserver.entity;
-
+package com.microservice.authserver.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tbl_users")
@@ -15,8 +15,11 @@ import java.util.Date;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "username")
+    private String email;
 
     @Column(name = "username")
     private String username;
@@ -29,4 +32,10 @@ public class User {
 
     @Column(name = "updated_date")
     private Date updatedDate;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "tbl_user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 }

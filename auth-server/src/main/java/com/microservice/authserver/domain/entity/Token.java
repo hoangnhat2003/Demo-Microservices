@@ -1,4 +1,4 @@
-package com.microservice.authserver.entity;
+package com.microservice.authserver.domain.entity;
 
 import lombok.Builder;
 import lombok.Data;

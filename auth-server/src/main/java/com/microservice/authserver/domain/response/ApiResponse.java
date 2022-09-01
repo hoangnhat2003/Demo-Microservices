@@ -1,4 +1,4 @@
-package com.microservice.authserver.response;
+package com.microservice.authserver.domain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;

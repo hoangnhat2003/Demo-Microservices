@@ -1,61 +1,72 @@
 package com.microservice.authserver.controller;
 
-import com.google.gson.Gson;
-import com.microservice.authserver.entity.Activity;
-import com.microservice.authserver.entity.Token;
-import com.microservice.authserver.response.ApiResponse;
-import com.microservice.authserver.response.ErrorResponse;
-import com.microservice.authserver.service.TokenService;
+import com.microservice.authserver.domain.entity.User;
+import com.microservice.authserver.domain.exception.AuthExceptionHandling;
+import com.microservice.authserver.domain.request.LoginRequest;
+import com.microservice.authserver.domain.response.ApiResponse;
+import com.microservice.authserver.domain.response.TokenDTO;
+import com.microservice.authserver.domain.utils.JwtUtil;
 import com.microservice.authserver.service.UserService;
-import com.microservice.authserver.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @RestController
+@RequestMapping("/authenticate")
 @Slf4j
 public class AuthRestController {
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private UserService userService;
 
     @Autowired
-    private TokenService tokenService;
-
-    @Autowired
     private JwtUtil jwtUtil;
 
-    @PostMapping("/auth/login")
-    public ApiResponse login(@RequestParam("username") String _userName, @RequestParam("password") String _password) {
-        log.info("Request POST /auth/login");
-        if (userService.isAuthenticated(_userName, _password)) {
-            String roles = userService.findAllRolesByUsername(_userName).stream()
-                    .map(Object::toString)
-                    .collect(Collectors.joining(","));
-            Token token = jwtUtil.generateToken(_userName);
-            token.setRoles(roles);
+    @PostMapping
+    public ResponseEntity<?> authenticate(@RequestBody LoginRequest request) throws Exception {
+        User userDetails = userService.findByEmail(request.getEmail());
+        authenticate(request.getEmail(), request.getPassword());
 
-            List<String> APIs = new ArrayList<>();
-            List<Activity> activities = userService.findAllActivitiesByRoles(roles);
-            activities.forEach(acc -> {
-                APIs.add(String.format(String.format("%s %s",acc.getMethod().toUpperCase(), acc.getUrl())));
-            });
+        final String token = jwtUtil.generateToken(userDetails);
 
-            // save token to redis
-            tokenService.saveToken(token.getToken(), APIs);
+        TokenDTO tokenDTO = new TokenDTO();
+        tokenDTO.setUserId(userDetails.getId());
+        tokenDTO.setEmail(request.getEmail());
+        tokenDTO.setUsername(userDetails.getUsername());
+        tokenDTO.setToken(token);
+        tokenDTO.setExpiredDate(jwtUtil.getExpirationDateFromToken(token));
 
-            log.info("Log in successful");
-            return new ApiResponse(HttpStatus.OK.value(), "User is authenticated", token);
+        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Login successfully" , tokenDTO));
+    }
+
+    private void authenticate(String email, String password) throws Exception {
+        Objects.requireNonNull(email);
+        Objects.requireNonNull(password);
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new AuthExceptionHandling("Password is incorrect");
+        } catch (AuthenticationException e) {
+            throw new AuthExceptionHandling("Email has not been registered");
         }
-        log.info("Log in fail !!");
-        return new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), "Invalid username or password");
     }
 }
