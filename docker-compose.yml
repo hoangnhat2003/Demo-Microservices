@@ -28,20 +28,6 @@ services:
     ports:
       - "8761:8761"
 
-  hystrix-dashboard:
-    container_name: hystrix-dashboard
-    build:
-      context: ./hystrix-dashboard
-      dockerfile: Dockerfile
-    environment:
-      eureka.client.service-url.defaultZone : http://service-registry:8761/eureka/
-    depends_on:
-      - service-registry
-    networks:
-      - microservices-app
-    ports:
-      - "9295:9295"
-
   cloud-config-server:
     container_name: cloud-config-server
     build:
