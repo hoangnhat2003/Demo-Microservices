@@ -2,13 +2,14 @@
 ----------------------------------
 -- DATABASE ecommerce_system --
 ----------------------------------
-CREATE DATABASE ecommerce_system DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE DATABASE IF NOT EXISTS ecommerce_system DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 USE ecommerce_system;
 
 ----------------------------------
 -- TABLE tbl_users --
 ----------------------------------
-CREATE TABLE tbl_users (
+CREATE TABLE IF NOT EXISTS tbl_users (
 	id INT(11) AUTO_INCREMENT,
 	email VARCHAR(50) NOT NULL,
 	username VARCHAR(50) NOT NULL,
@@ -22,7 +23,7 @@ CREATE TABLE tbl_users (
 ----------------------------------
 -- TABLE tbl_roles --
 ----------------------------------
-CREATE TABLE tbl_roles (
+CREATE TABLE IF NOT EXISTS tbl_roles (
 	id INT(11) AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL,
     enabled BOOLEAN,
@@ -36,7 +37,7 @@ CREATE TABLE tbl_roles (
 ----------------------------------
 -- TABLE tbl_user_roles --
 ----------------------------------
-CREATE TABLE tbl_user_roles (
+CREATE TABLE IF NOT EXISTS tbl_user_roles (
 	user_id INT(11) NOT NULL,
 	role_id INT(11) NOT NULL,
     PRIMARY KEY(user_id, role_id),
@@ -47,7 +48,7 @@ CREATE TABLE tbl_user_roles (
 ----------------------------------
 -- TABLE tbl_customer --
 ----------------------------------
-CREATE TABLE tbl_customer (
+CREATE TABLE IF NOT EXISTS tbl_customer (
 	id INT(11) AUTO_INCREMENT,
 	fullName VARCHAR(50),
 	gender VARCHAR(50),

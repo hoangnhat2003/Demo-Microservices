@@ -6,18 +6,15 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      DB_URL: ${DB_URL}
-      DB_PORT: ${DB_PORT}
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: hoangnhat
     ports:
       - "3366:3306"
     expose:
       - 3366
     volumes:
-      - micro_data:/var/lib/mysql
-      - ./deployment/db/init.sql:/data/application/init.sql
+      - mysql:/var/lib/mysql
+      - ./deployment/db/ecommerce_system.sql:/data/application/ecommerce_system.sql
+    command: --init-file /data/application/ecommerce_system.sql
     networks:
       - microservices-app
 
@@ -232,7 +229,7 @@ services:
       - kafka
 
 volumes:
-  micro_data:
+  mysql:
     driver: local
 
 networks:
