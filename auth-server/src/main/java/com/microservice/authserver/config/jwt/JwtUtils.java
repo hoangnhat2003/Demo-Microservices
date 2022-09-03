@@ -1,35 +1,65 @@
 package com.microservice.authserver.config.jwt;
 
-import com.microservice.authserver.config.UserDetailsImpl;
+import com.microservice.authserver.domain.entity.User;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import io.jsonwebtoken.*;
-
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class JwtUtils {
 
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationTokenFilter.class);
-    @Value("${base.jwtSecret}")
+
+
+    @Value("${jwt.token.secretKey}")
     private String jwtSecret;
 
-    public String generateJwtToken(UserDetailsImpl userPrincipal) {
-        return generateTokenFromUsername(userPrincipal.getUsername());
+    public static final long JWT_TOKEN_VALIDITY = 5*60*60;
+
+
+    public String generateToken(User userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userDetails.getId());
+        claims.put("username", userDetails.getUsername());
+        claims.put("email", userDetails.getEmail());
+        claims.put("roles", userDetails.getRoles());
+        return doGenerateToken(claims, userDetails.getUsername());
     }
 
-    public String generateTokenFromUsername(String username) {
-        return Jwts.builder().setSubject(username).setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + JWT_TOKEN_VALIDITY)).signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
+    private String doGenerateToken(Map<String, Object> claims, String subject) {
+        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY*1000)).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }
 
-    public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    public Date getExpirationDateFromToken(String token) {
+        return getClaimFromToken(token, Claims::getExpiration);
+    }
+
+    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResolver.apply(claims);
+    }
+
+    public Claims getAllClaimsFromToken(String token) {
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+    }
+
+    public String getEmailFromToken(String token) {
+        final Claims claims = getAllClaimsFromToken(token);
+        if (claims == null) {
+            return "";
+        }
+        return claims.get("email").toString();
     }
 
     public boolean validateJwtToken(String authToken) {
@@ -48,7 +78,6 @@ public class JwtUtils {
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
-
         return false;
     }
 }

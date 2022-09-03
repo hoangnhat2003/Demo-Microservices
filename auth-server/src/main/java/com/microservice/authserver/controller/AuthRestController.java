@@ -1,11 +1,11 @@
 package com.microservice.authserver.controller;
 
+import com.microservice.authserver.config.jwt.JwtUtils;
 import com.microservice.authserver.domain.entity.User;
 import com.microservice.authserver.domain.exception.AuthExceptionHandling;
 import com.microservice.authserver.domain.request.LoginRequest;
 import com.microservice.authserver.domain.response.ApiResponse;
 import com.microservice.authserver.domain.response.TokenDTO;
-import com.microservice.authserver.domain.utils.JwtUtil;
 import com.microservice.authserver.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class AuthRestController {
     private UserService userService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtUtils jwtUtil;
 
     @PostMapping
     public ResponseEntity<?> authenticate(@RequestBody LoginRequest request) throws Exception {
