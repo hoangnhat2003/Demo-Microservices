@@ -1,4 +1,4 @@
-package com.microservice.authserver.domain.entity;
+package com.microservice.authserver.domain.document;
 
 import com.microservice.authserver.domain.enums.ERole;
 import lombok.AllArgsConstructor;

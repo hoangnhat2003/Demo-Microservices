@@ -1,6 +1,6 @@
 package com.microservice.authserver.config.jwt;
 
-import com.microservice.authserver.domain.entity.User;
+import com.microservice.authserver.domain.document.User;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j

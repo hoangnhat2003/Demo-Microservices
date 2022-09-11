@@ -1,7 +1,7 @@
 package com.microservice.customerservice.controller;
 
-import com.microservice.customerservice.entity.User;
-import com.microservice.customerservice.service.UserService;
+import com.microservice.customerservice.domain.document.Customer;
+import com.microservice.customerservice.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 @Slf4j
-public class UserController {
+public class CustomerController {
 
     @Autowired
-    private UserService userService;
+    private CustomerService userService;
 
     @PostMapping
-    public User saveUser(@RequestBody User user){
+    public Customer saveUser(@RequestBody Customer user){
         return null;
     }
 }

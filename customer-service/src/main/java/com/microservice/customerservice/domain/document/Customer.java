@@ -1,13 +1,14 @@
-package com.microservice.authserver.domain.entity;
+package com.microservice.customerservice.domain.document;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Date;
 
+
 @Entity
-@Table(name = "tbl_customer")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,6 +20,6 @@ public class Customer {
     private String gender;
     private Date dateOfBirth;
     private String address;
-    @Column(name = "user_id", nullable=false)
-    private Long user;
+    private Date createdDate;
+    private Date updatedDate;
 }

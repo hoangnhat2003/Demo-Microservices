@@ -1,7 +1,7 @@
 package com.microservice.authserver.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.microservice.authserver.domain.entity.User;
+import com.microservice.authserver.domain.document.User;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

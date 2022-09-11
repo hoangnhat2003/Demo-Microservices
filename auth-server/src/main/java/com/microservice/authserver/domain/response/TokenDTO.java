@@ -1,7 +1,7 @@
 package com.microservice.authserver.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.microservice.authserver.domain.entity.Role;
+import com.microservice.authserver.domain.document.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

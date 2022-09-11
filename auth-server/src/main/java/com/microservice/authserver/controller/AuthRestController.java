@@ -1,7 +1,7 @@
 package com.microservice.authserver.controller;
 
 import com.microservice.authserver.config.jwt.JwtUtils;
-import com.microservice.authserver.domain.entity.User;
+import com.microservice.authserver.domain.document.User;
 import com.microservice.authserver.domain.exception.AuthExceptionHandling;
 import com.microservice.authserver.domain.request.LoginRequest;
 import com.microservice.authserver.domain.response.ApiResponse;

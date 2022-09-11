@@ -1,6 +1,6 @@
 package com.microservice.authserver.domain.repository;
 
-import com.microservice.authserver.domain.entity.User;
+import com.microservice.authserver.domain.document.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

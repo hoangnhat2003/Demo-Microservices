@@ -1,6 +1,6 @@
 package com.microservice.authserver.config;
 
-import com.microservice.authserver.domain.entity.User;
+import com.microservice.authserver.domain.document.User;
 import com.microservice.authserver.domain.exception.AuthExceptionHandling;
 import com.microservice.authserver.domain.repository.UserRepository;
 import lombok.SneakyThrows;

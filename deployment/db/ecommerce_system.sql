@@ -54,9 +54,7 @@ CREATE TABLE IF NOT EXISTS tbl_customer (
 	gender VARCHAR(50),
 	dateOfBirth VARCHAR(255),
 	address VARCHAR(255),
-	user_id INT(11) NOT NULL,
 	created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	PRIMARY KEY(id),
-	CONSTRAINT tbl_customer_fk1 FOREIGN KEY (user_id) REFERENCES tbl_users(id)
+	PRIMARY KEY(id)
 );
