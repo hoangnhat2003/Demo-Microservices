@@ -10,6 +10,7 @@ import java.util.Date;
 
 @Entity
 @Data
+@Table(name = "tbl_customer")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
