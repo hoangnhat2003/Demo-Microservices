@@ -129,3 +129,21 @@ CREATE TABLE IF NOT EXISTS tbl_order (
 	updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY(id)
 );
+
+----------------------------------
+-- TABLE tbl_invoice --
+----------------------------------
+CREATE TABLE IF NOT EXISTS tbl_invoice (
+	id INT(11) AUTO_INCREMENT,
+    order_id INTEGER,
+	customer_id INTEGER,
+    product_id INTEGER,
+    quantity INTEGER,
+    product_price DOUBLE,
+    payment_detail_id INTEGER,
+    billing_address_id INTEGER,
+    total_charge_amount DOUBLE,
+	created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY(id)
+);
