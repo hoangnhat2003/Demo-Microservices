@@ -1,6 +1,7 @@
 package com.microservice.orderservice.domain.document;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.Date;
 @Table(name = "tbl_order")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
