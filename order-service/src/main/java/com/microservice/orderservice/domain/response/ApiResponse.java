@@ -1,4 +1,4 @@
-package com.microservice.orderservice.response;
+package com.microservice.orderservice.domain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;

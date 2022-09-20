@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
@@ -22,7 +21,7 @@ public class ProductController {
         return new ApiResponse(HttpStatus.OK.value(), null,data);
     }
 
-    @PostMapping(value = "/addProduct")
+    @PostMapping
     public ResponseEntity<?> addProduct(@RequestBody CreateProductRequest product) {
         Product data = productService.addProduct(product);
         return new ApiResponse(HttpStatus.OK.value(), "Create new product successfully",data);

@@ -1,7 +1,7 @@
 package com.microservice.orderservice.domain.handler;
 
 import com.microservice.orderservice.domain.exception.ServiceException;
-import com.microservice.orderservice.response.ApiResponse;
+import com.microservice.orderservice.domain.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
