@@ -58,3 +58,74 @@ CREATE TABLE IF NOT EXISTS tbl_customer (
 	updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY(id)
 );
+
+----------------------------------
+-- TABLE tbl_category --
+----------------------------------
+CREATE TABLE IF NOT EXISTS tbl_category (
+	id INT(11) AUTO_INCREMENT,
+	name VARCHAR(255),
+	description VARCHAR(255),
+	created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY(id)
+);
+
+----------------------------------
+-- TABLE tbl_product --
+----------------------------------
+CREATE TABLE IF NOT EXISTS tbl_product (
+	id INT(11) AUTO_INCREMENT,
+	product_name VARCHAR(255),
+	description VARCHAR(255),
+	price DOUBLE,
+	quantity_in_stock INTEGER,
+	category_id INTEGER,
+	created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY(id),
+	CONSTRAINT product_fk1 FOREIGN KEY (category_id) REFERENCES tbl_category(id)
+);
+
+----------------------------------
+-- TABLE tbl_address --
+----------------------------------
+CREATE TABLE IF NOT EXISTS tbl_address (
+	id INT(11) AUTO_INCREMENT,
+	line VARCHAR(255),
+	city VARCHAR(255),
+	country VARCHAR(255),
+	postcode VARCHAR(255),
+	PRIMARY KEY(id)
+);
+
+----------------------------------
+-- TABLE tbl_payment_details --
+----------------------------------
+CREATE TABLE IF NOT EXISTS tbl_payment_details (
+	id INT(11) AUTO_INCREMENT,
+	card_type VARCHAR(255),
+	holder_name VARCHAR(255),
+	card_number VARCHAR(255),
+	cvv INTEGER,
+	expire VARCHAR(255),
+	PRIMARY KEY(id)
+);
+
+----------------------------------
+-- TABLE tbl_order --
+----------------------------------
+CREATE TABLE IF NOT EXISTS tbl_order (
+	id INT(11) AUTO_INCREMENT,
+	customer_id INTEGER,
+    status VARCHAR(255),
+    product_id INTEGER,
+    quantity INTEGER,
+    amount INTEGER,
+	shipping_address_id INTEGER,
+	billing_address_id INTEGER,
+	payment_detail_id INTEGER,
+	created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY(id)
+);
