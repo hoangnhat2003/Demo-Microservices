@@ -1,1 +1,1 @@
-Demo Microservices Project using gRPC, Spring boot, Kafka ,Kong API-Gateway
+Demo Microservices Project using Spring boot, Kafka ,Kong API-Gateway, WebSocket
