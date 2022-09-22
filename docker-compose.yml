@@ -85,27 +85,6 @@ services:
       - mysql
       - kafka
 
-  notification-service:
-    container_name: notification-service
-    build:
-      context: ./notification-service
-      dockerfile: Dockerfile
-    environment:
-      eureka.client.service-url.defaultZone: http://service-registry:8761/eureka/
-      DB_URL: ${DB_URL}
-      DB_PORT: ${DB_PORT}
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "6652:5005"
-    networks:
-      - microservices-app
-    depends_on:
-      - service-registry
-      - mysql
-      - kafka
-
   order-service:
     container_name: order-service
     build:
@@ -141,27 +120,6 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
     ports:
       - "6654:5005"
-    networks:
-      - microservices-app
-    depends_on:
-      - service-registry
-      - mysql
-      - kafka
-
-  warehouse-service:
-    container_name: warehouse-service
-    build:
-      context: ./warehouse-service
-      dockerfile: Dockerfile
-    environment:
-      eureka.client.service-url.defaultZone: http://service-registry:8761/eureka/
-      DB_URL: ${DB_URL}
-      DB_PORT: ${DB_PORT}
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "6655:5005"
     networks:
       - microservices-app
     depends_on:
