@@ -106,9 +106,12 @@ CREATE TABLE IF NOT EXISTS tbl_payment_details (
 	id INT(11) AUTO_INCREMENT,
 	card_type VARCHAR(255),
 	holder_name VARCHAR(255),
+	customer_id INTEGER,
 	card_number VARCHAR(255),
 	cvv INTEGER,
 	expire VARCHAR(255),
+	created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY(id)
 );
 
@@ -121,7 +124,8 @@ CREATE TABLE IF NOT EXISTS tbl_order (
     status VARCHAR(255),
     product_id INTEGER,
     quantity INTEGER,
-    amount INTEGER,
+    amount DOUBLE,
+    product_price DOUBLE,
 	shipping_address_id INTEGER,
 	billing_address_id INTEGER,
 	payment_detail_id INTEGER,

@@ -9,8 +9,8 @@ public class CreateOrderRequest {
     private Long customerId;
     private String status;
     private Long productId;
-    private Integer quantity;
-    private Integer amount;
+    private Long quantity;
+    private Double amount;
     private AddressForm billingAddress;
     private AddressForm shippingAddress;
     private PaymentDetailForm paymentDetails;

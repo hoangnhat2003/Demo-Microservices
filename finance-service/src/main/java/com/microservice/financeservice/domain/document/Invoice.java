@@ -1,6 +1,7 @@
 package com.microservice.financeservice.domain.document;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,18 +14,19 @@ import java.util.Date;
 @Table(name = "tbl_invoice")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long order_id;
-    private Long customer_id;
-    private Long product_id;
+    private Long orderId;
+    private Long customerId;
+    private Long productId;
     private Long quantity;
-    private Double product_price;
-    private Long payment_detail_id;
-    private Long billing_address_id;
-    private Double total_charge_amount;
+    private Double productPrice;
+    private Long paymentDetailId;
+    private Long billingAddressId;
+    private Double totalChargeAmount;
     private Date createdDate;
     private Date updatedDate;
 }

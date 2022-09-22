@@ -20,8 +20,9 @@ public class Order {
     private Long customerId;
     private String status;
     private Long productId;
-    private Integer quantity;
-    private Integer amount;
+    private Long quantity;
+    private Double amount;
+    private Double productPrice;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "billing_address_id", referencedColumnName = "id")
     private Address billingAddress;
